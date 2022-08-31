@@ -1,0 +1,8 @@
+{
+  "vin": "vin",
+  "make": "make",
+  "model": "model",
+  "horsePower": 400,
+  "type": "CABRIOLET",
+  "price": 40000
+}

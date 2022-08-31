@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+        <changeSet id="create_table_car" author="Jana Marikova" runOnChange="true">
+            <preConditions>
+                <not>
+                    <tableExists tableName="car"/>
+                </not>
+            </preConditions>
+
+            <createTable tableName="car">
+                <column name="id" type="UUID">
+                    <constraints primaryKey="true" primaryKeyName="car_id_pk"/>
+                </column>
+                <column name="vin" type="TEXT">
+                    <constraints nullable="false" unique="true" uniqueConstraintName="car_vin_ui"/>
+                </column>
+                <column name="make" type="TEXT">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="model" type="TEXT">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="horse_power" type="INTEGER">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="type" type="TEXT">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="price" type="java.math.BigDecimal">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="created_at" type="TIMESTAMP">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="updated_at" type="TIMESTAMP">
+                    <constraints nullable="false"/>
+                </column>
+            </createTable>
+        </changeSet>
+
+</databaseChangeLog>

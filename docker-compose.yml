@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+
+    postgres:
+        image: postgres
+        ports:
+            - "5432:5432"
+        networks:
+            - auto-service-network
+        restart: always
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DB: postgres
+        volumes:
+            -   db:/var/lib/postgresql/data
+
+    user-ms:
+        image: user-ms
+        ports:
+            -   "8080:8080"
+        networks:
+            - auto-service-network
+        restart: always
+        depends_on:
+            -   postgres
+
+    car-ms:
+        image: car-ms
+        ports:
+            -   "8081:8081"
+        networks:
+            - auto-service-network
+        restart: always
+        depends_on:
+            - postgres
+
+networks:
+    auto-service-network:
+
+volumes:
+    db:
+        driver: local
