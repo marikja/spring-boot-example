@@ -24,6 +24,8 @@ services:
         restart: always
         depends_on:
             -   postgres
+        environment:
+            DB_HOST: postgres
 
     car-ms:
         image: car-ms
@@ -34,6 +36,8 @@ services:
         restart: always
         depends_on:
             - postgres
+        environment:
+            DB_HOST: postgres
 
 networks:
     auto-service-network:

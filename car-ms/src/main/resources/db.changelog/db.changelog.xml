@@ -7,6 +7,6 @@
 
     <includeAll path="db.changelog/schema/table"/>
 <!--    <includeAll path="db.changelog/schema/view"/>-->
-<!--    <includeAll path="db.changelog/schema/fk"/>-->
+    <includeAll path="db.changelog/schema/fk"/>
 
 </databaseChangeLog>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="create_table_rent_car" author="Jana Marikova" runOnChange="true">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <tableExists tableName="rent_car"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="rent_car">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="rent_car_id_pk"/>
+            </column>
+            <column name="car_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="from_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="to_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="returned_date" type="TIMESTAMP"/>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

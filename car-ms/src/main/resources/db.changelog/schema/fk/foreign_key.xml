@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="rent_car_car_id_fk" author="Jana Marikova">
+        <addForeignKeyConstraint baseTableName="rent_car"
+                                 baseColumnNames="car_id"
+                                 constraintName="rent_car_car_id_fk"
+                                 referencedTableName="car"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

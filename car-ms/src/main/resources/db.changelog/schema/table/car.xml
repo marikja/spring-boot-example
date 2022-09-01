@@ -6,7 +6,7 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
         <changeSet id="create_table_car" author="Jana Marikova" runOnChange="true">
-            <preConditions>
+            <preConditions onFail="CONTINUE">
                 <not>
                     <tableExists tableName="car"/>
                 </not>
