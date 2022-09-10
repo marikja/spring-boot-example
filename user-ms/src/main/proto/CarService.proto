@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option java_package = "com.proto.rentcar";
+option java_multiple_files = true;
+
+enum CarType {
+  SEDAN = 0;
+  COMBI = 1;
+  SUV = 2;
+  CABRIOLET = 3;
+}
+
+message RentCarGrpcRequest {
+  string userId = 1;
+  string carId = 2;
+  string fromDate = 3;
+  string toDate = 4;
+}
+
+message ReturnCarGrpcRequest {
+  string rentCarId = 1;
+}
+
+message FindAllByUserIdGrpcRequest {
+  string userId = 1;
+}
+
+message FindAllByUserIdsGrpcRequest {
+  repeated string userId = 1;
+}
+
+message RentCarGrpcResponse {
+  string rentCarId = 1;
+  string userId = 2;
+  string carId = 3;
+  string fromDate = 4;
+  string toDate = 5;
+  string vin = 6;
+  string make = 7;
+  string model = 8;
+  int32 horsePower = 9;
+  CarType type = 10;
+  string price = 11;
+}
+
+message RentCarsGrpcResponse {
+  repeated RentCarGrpcResponse rentCars = 1;
+}
+
+service CarService {
+  rpc rentCar(RentCarGrpcRequest) returns (RentCarGrpcResponse);
+  rpc returnCar(ReturnCarGrpcRequest) returns (google.protobuf.Empty);
+  rpc findAllByUserId(FindAllByUserIdGrpcRequest) returns (RentCarsGrpcResponse);
+  rpc findAllByUserIds(FindAllByUserIdsGrpcRequest) returns (RentCarsGrpcResponse);
+}

@@ -21,14 +21,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 
+import static com.example.userms.util.ResourceLoaderUtil.asString;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -88,8 +85,8 @@ public class UserControllerTest {
                 USER.getEmail(),
                 USER.getAge(),
                 USER.getCreatedAt(),
-                USER.getUpdatedAt()
-
+                USER.getUpdatedAt(),
+                Collections.emptyList()
         );
     }
 
@@ -121,13 +118,5 @@ public class UserControllerTest {
                 USER.getAge()
         ));
         verify(userResponseMapper).map(USER);
-    }
-
-    public static String asString(Resource resource) {
-        try(Reader reader = new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8)) {
-            return FileCopyUtils.copyToString(reader);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

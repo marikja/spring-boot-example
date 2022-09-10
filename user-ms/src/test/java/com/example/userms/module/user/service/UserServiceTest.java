@@ -1,5 +1,6 @@
 package com.example.userms.module.user.service;
 
+import com.example.userms.common.integrator.car.CarIntegrator;
 import com.example.userms.module.user.entity.User;
 import com.example.userms.module.user.service.command.CreateUserCommand;
 import org.junit.jupiter.api.AfterEach;
@@ -13,7 +14,11 @@ import static org.mockito.Mockito.*;
 public class UserServiceTest {
 
     private final UserRepository userRepository = mock(UserRepository.class);
-    private final UserService userService = new UserService(userRepository);
+    private final CarIntegrator carIntegrator = mock(CarIntegrator.class);
+    private final UserService userService = new UserService(
+            userRepository,
+            carIntegrator
+    );
 
     private final static CreateUserCommand CREATE_USER_COMMAND;
 

@@ -4,11 +4,15 @@ import com.example.userms.common.dto.response.PageModel;
 import com.example.userms.common.util.PageMapperUtil;
 import com.example.userms.module.user.controller.dto.mapper.UserResponseMapper;
 import com.example.userms.module.user.controller.dto.request.CreateUserRequest;
+import com.example.userms.module.user.controller.dto.request.UserRentCarRequest;
+import com.example.userms.common.integrator.car.model.response.RentCarResponse;
 import com.example.userms.module.user.controller.dto.response.UserResponse;
 import com.example.userms.module.user.entity.User;
 import com.example.userms.module.user.service.UserFinderService;
 import com.example.userms.module.user.service.UserService;
 import com.example.userms.module.user.service.command.CreateUserCommand;
+import com.example.userms.module.user.service.command.RentCarCommand;
+import com.example.userms.module.user.service.command.ReturnCarCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -57,23 +61,22 @@ public class UserController {
         return userResponseMapper.map(user);
     }
 
-    @PostMapping("/sign-in")
-    public void signIn() {
-        //TODO
+    @PostMapping("/{userId}/cars/{carId}/rent")
+    public RentCarResponse rentCar(@PathVariable UUID userId,
+                                   @PathVariable UUID carId,
+                                   @RequestBody UserRentCarRequest request) {
+        return userService.rentCar(
+                new RentCarCommand(
+                        userId,
+                        carId,
+                        request.fromDate(),
+                        request.toDate()
+                )
+        );
     }
 
-    @PostMapping("/{userId}/cars/{carId}/buy")
-    public void buyCar(@PathVariable UUID userId, @PathVariable UUID carId) {
-        //TODO
-    }
-
-    @PostMapping("/{userId}/cars/{carId}/sell")
-    public void sellCar(@PathVariable UUID userId, @PathVariable UUID carId) {
-        //TODO
-    }
-
-    @GetMapping("/{userId}/logs")
-    public void getLogUser(@PathVariable UUID userId) {
-        //TODO
+    @PostMapping("/cars/return/{rentCarId}")
+    public void returnCar(@PathVariable UUID rentCarId) {
+        userService.returnCar(new ReturnCarCommand(rentCarId));
     }
 }
