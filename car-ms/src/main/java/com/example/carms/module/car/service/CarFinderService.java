@@ -1,14 +1,14 @@
 package com.example.carms.module.car.service;
 
 import com.example.carms.module.car.exception.CarNotFoundException;
-import com.example.carms.module.car.model.Car;
+import com.example.carms.module.car.entity.Car;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -24,4 +24,15 @@ public class CarFinderService {
         return carRepository.findAll(pageable);
     }
 
+    public Optional<Car> findById(UUID carId) {
+        return carRepository.findById(carId);
+    }
+
+    public List<Car> findAllByIds(Set<UUID> carIds) {
+        if (carIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return carRepository.findAllByIdIn(carIds);
+    }
 }

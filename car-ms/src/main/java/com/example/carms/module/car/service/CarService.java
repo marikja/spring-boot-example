@@ -1,7 +1,7 @@
 package com.example.carms.module.car.service;
 
 import com.example.carms.module.car.exception.CarAlreadyExistsException;
-import com.example.carms.module.car.model.Car;
+import com.example.carms.module.car.entity.Car;
 import com.example.carms.module.car.service.command.CreateCarCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,6 +30,7 @@ public class CarService {
         car.setPrice(command.price());
         car.setHorsePower(command.horsePower());
         car.setModel(command.model());
+
         return carRepository.save(car);
     }
 }

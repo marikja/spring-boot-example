@@ -1,5 +1,6 @@
-package com.example.carms.module.rentcar.model;
+package com.example.carms.module.car.entity;
 
+import com.example.carms.module.car.constant.CarType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -15,27 +17,31 @@ import java.util.UUID;
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
-public class RentCar {
+public class Car {
 
     @Id
     @EqualsAndHashCode.Include
     @Column(updatable = false, unique = true)
     private final UUID id = UUID.randomUUID();
 
-    @Column(nullable = false, updatable = false)
-    private UUID carId;
-
-    @Column(nullable = false, updatable = false)
-    private UUID userId;
+    @Column(nullable = false, updatable = false, unique = true)
+    private String vin;
 
     @Column(nullable = false)
-    private LocalDateTime fromDate;
+    private String make;
 
     @Column(nullable = false)
-    private LocalDateTime toDate;
+    private String model;
+
+    @Column(nullable = false)
+    private Integer horsePower;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private CarType type;
 
     @Nullable
-    private LocalDateTime returnedDate;
+    private BigDecimal price;
 
     @CreationTimestamp
     @Column(updatable = false, nullable = false)
@@ -44,4 +50,5 @@ public class RentCar {
     @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime updatedAt;
+
 }

@@ -2,9 +2,7 @@ package com.example.carms.module.car.service;
 
 import com.example.carms.module.car.constant.CarType;
 import com.example.carms.module.car.exception.CarAlreadyExistsException;
-import com.example.carms.module.car.model.Car;
-import com.example.carms.module.car.service.CarRepository;
-import com.example.carms.module.car.service.CarService;
+import com.example.carms.module.car.entity.Car;
 import com.example.carms.module.car.service.command.CreateCarCommand;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;

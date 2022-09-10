@@ -2,10 +2,9 @@ package com.example.carms.module.car.controller;
 
 import com.example.carms.ControllerTest;
 import com.example.carms.module.car.constant.CarType;
-import com.example.carms.module.car.controller.CarController;
 import com.example.carms.module.car.controller.dto.mapper.CarResponseMapper;
 import com.example.carms.module.car.controller.dto.response.CarResponse;
-import com.example.carms.module.car.model.Car;
+import com.example.carms.module.car.entity.Car;
 import com.example.carms.module.car.service.CarFinderService;
 import com.example.carms.module.car.service.CarService;
 import com.example.carms.module.car.service.command.CreateCarCommand;
@@ -35,6 +34,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
 
+import static com.example.carms.util.ResourceLoaderUtil.asString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -95,6 +95,7 @@ public class CarControllerTest {
     private final static CarResponse CAR_RESPONSE;
     static {
         CAR_RESPONSE = new CarResponse(
+                CAR.getId(),
                 CAR.getVin(),
                 CAR.getMake(),
                 CAR.getModel(),
@@ -182,13 +183,5 @@ public class CarControllerTest {
 
         verify(carFinderService).getById(uuid);
         verify(carResponseMapper).map(CAR);
-    }
-
-    public static String asString(Resource resource) {
-        try(Reader reader = new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8)) {
-            return FileCopyUtils.copyToString(reader);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

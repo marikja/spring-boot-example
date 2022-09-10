@@ -1,7 +1,7 @@
 package com.example.carms.module.car.controller.dto.mapper;
 
 import com.example.carms.module.car.controller.dto.response.CarResponse;
-import com.example.carms.module.car.model.Car;
+import com.example.carms.module.car.entity.Car;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -11,12 +11,13 @@ public class CarResponseMapper {
 
     public CarResponse map(Car car) {
         return new CarResponse(
-              car.getVin(),
-              car.getMake(),
-              car.getModel(),
-              car.getHorsePower(),
-              car.getType(),
-              car.getPrice()
+                car.getId(),
+                car.getVin(),
+                car.getMake(),
+                car.getModel(),
+                car.getHorsePower(),
+                car.getType(),
+                car.getPrice()
         );
     }
 

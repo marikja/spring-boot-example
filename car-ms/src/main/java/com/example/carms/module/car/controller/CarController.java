@@ -3,7 +3,7 @@ package com.example.carms.module.car.controller;
 import com.example.carms.module.car.controller.dto.mapper.CarResponseMapper;
 import com.example.carms.module.car.controller.dto.request.CreateCarRequest;
 import com.example.carms.module.car.controller.dto.response.CarResponse;
-import com.example.carms.module.car.model.Car;
+import com.example.carms.module.car.entity.Car;
 import com.example.carms.module.car.service.CarFinderService;
 import com.example.carms.module.car.service.command.CreateCarCommand;
 import com.example.carms.module.car.service.CarService;
