@@ -13,4 +13,12 @@
                                  referencedColumnNames="id"/>
     </changeSet>
 
+    <changeSet id="car_image_car_id_fk" author="Jana Marikova">
+        <addForeignKeyConstraint baseTableName="car_image"
+                                 baseColumnNames="car_id"
+                                 constraintName="car_image_car_id_fk"
+                                 referencedTableName="car"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
 </databaseChangeLog>

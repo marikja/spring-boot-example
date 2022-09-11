@@ -7,9 +7,9 @@ import com.example.carms.module.rentcar.service.command.CreateRentCarCommand;
 import com.example.carms.module.rentcar.service.command.ReturnCarCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.Collections;

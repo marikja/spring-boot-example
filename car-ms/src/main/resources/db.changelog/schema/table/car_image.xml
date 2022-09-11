@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="create_car_image" author="Jana Marikova" runOnChange="true">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <tableExists tableName="car_image"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="car_image">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="car_image_id_pk"/>
+            </column>
+            <column name="car_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="image_name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

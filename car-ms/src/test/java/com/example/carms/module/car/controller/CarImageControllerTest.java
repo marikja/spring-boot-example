@@ -47,7 +47,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ControllerTest
 @WebMvcTest(CarController.class)
-public class CarControllerTest {
+public class CarImageControllerTest {
 
     @Autowired
     private WebApplicationContext webApplicationContext;
