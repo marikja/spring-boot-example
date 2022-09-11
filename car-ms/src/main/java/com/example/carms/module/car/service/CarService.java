@@ -1,14 +1,17 @@
 package com.example.carms.module.car.service;
 
+import com.example.carms.common.constant.DbTable;
+import com.example.carms.common.service.PostgresLockService;
 import com.example.carms.module.car.exception.CarAlreadyExistsException;
 import com.example.carms.module.car.entity.Car;
 import com.example.carms.module.car.service.command.CreateCarCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.List;
 
 @Service
 @Validated
@@ -16,10 +19,13 @@ import javax.validation.Valid;
 public class CarService {
 
     private final CarRepository carRepository;
+    private final PostgresLockService postgresLockService;
 
     @Transactional
     public Car create(@Valid CreateCarCommand command) {
-        if(carRepository.existsByVin(command.vin())) {
+        postgresLockService.lock(DbTable.CAR, List.of(command.vin()));
+
+        if (carRepository.existsByVin(command.vin())) {
             throw new CarAlreadyExistsException();
         }
 

@@ -1,5 +1,7 @@
 package com.example.carms.module.car.service;
 
+import com.example.carms.common.constant.DbTable;
+import com.example.carms.common.service.PostgresLockService;
 import com.example.carms.module.car.constant.CarType;
 import com.example.carms.module.car.exception.CarAlreadyExistsException;
 import com.example.carms.module.car.entity.Car;
@@ -9,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -19,7 +22,8 @@ import static org.mockito.Mockito.verify;
 public class CarServiceTest {
 
     private final CarRepository carRepository = mock(CarRepository.class);
-    private final CarService carService = new CarService(carRepository);
+    private final PostgresLockService postgresLockService = mock(PostgresLockService.class);
+    private final CarService carService = new CarService(carRepository, postgresLockService);
 
     private final static CreateCarCommand CREATE_CAR_COMMAND;
 
@@ -44,6 +48,8 @@ public class CarServiceTest {
         when(carRepository.existsByVin(any())).thenReturn(false);
 
         carService.create(CREATE_CAR_COMMAND);
+
+        verify(postgresLockService).lock(DbTable.CAR, List.of(CREATE_CAR_COMMAND.vin()));
 
         verify(carRepository).existsByVin(CREATE_CAR_COMMAND.vin());
         final ArgumentCaptor<Car> argumentCaptor = ArgumentCaptor.forClass(Car.class);

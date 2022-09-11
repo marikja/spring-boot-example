@@ -1,11 +1,15 @@
 package com.example.userms.module.user.service;
 
+import com.example.userms.common.constant.DbTable;
 import com.example.userms.common.integrator.car.CarIntegrator;
+import com.example.userms.common.service.PostgresLockService;
 import com.example.userms.module.user.entity.User;
 import com.example.userms.module.user.service.command.CreateUserCommand;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -15,9 +19,11 @@ public class UserServiceTest {
 
     private final UserRepository userRepository = mock(UserRepository.class);
     private final CarIntegrator carIntegrator = mock(CarIntegrator.class);
+    private final PostgresLockService postgresLockService = mock(PostgresLockService.class);
     private final UserService userService = new UserService(
             userRepository,
-            carIntegrator
+            carIntegrator,
+            postgresLockService
     );
 
     private final static CreateUserCommand CREATE_USER_COMMAND;
@@ -42,6 +48,8 @@ public class UserServiceTest {
         when(userRepository.existsByEmail(any())).thenReturn(false);
 
         userService.create(CREATE_USER_COMMAND);
+
+        verify(postgresLockService).lock(DbTable.USER, List.of(CREATE_USER_COMMAND.email()));
 
         verify(userRepository).existsByEmail(CREATE_USER_COMMAND.email());
         final ArgumentCaptor<User> argumentCaptor = ArgumentCaptor.forClass(User.class);

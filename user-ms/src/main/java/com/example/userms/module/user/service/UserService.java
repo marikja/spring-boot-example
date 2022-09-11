@@ -1,9 +1,11 @@
 package com.example.userms.module.user.service;
 
+import com.example.userms.common.constant.DbTable;
 import com.example.userms.common.integrator.car.CarIntegrator;
 import com.example.userms.common.integrator.car.model.request.RentCarRequest;
 import com.example.userms.common.integrator.car.model.request.ReturnCarRequest;
 import com.example.userms.common.integrator.car.model.response.RentCarResponse;
+import com.example.userms.common.service.PostgresLockService;
 import com.example.userms.module.user.entity.User;
 import com.example.userms.module.user.exception.UserAlreadyExistsException;
 import com.example.userms.module.user.exception.UserNotFoundException;
@@ -12,10 +14,11 @@ import com.example.userms.module.user.service.command.RentCarCommand;
 import com.example.userms.module.user.service.command.ReturnCarCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.List;
 
 @Service
 @Validated
@@ -24,9 +27,12 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final CarIntegrator carIntegrator;
+    private final PostgresLockService postgresLockService;
 
     @Transactional
     public User create(@Valid CreateUserCommand command) {
+        postgresLockService.lock(DbTable.USER, List.of(command.email()));
+
         if (userRepository.existsByEmail(command.email())) {
             throw new UserAlreadyExistsException();
         }
