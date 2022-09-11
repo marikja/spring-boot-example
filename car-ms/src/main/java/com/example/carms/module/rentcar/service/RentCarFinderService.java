@@ -5,6 +5,8 @@ import com.example.carms.module.rentcar.exception.RentCarNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -34,5 +36,10 @@ public class RentCarFinderService{
         }
 
         return rentCarRepository.findAllByUserIdIn(userIds);
+    }
+
+    public List<RentCar> findAllByCreatedAtToday() {
+        final LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
+        return rentCarRepository.findAllByCreatedAtBetween(startOfDay, startOfDay.plusDays(1).minusSeconds(1));
     }
 }
