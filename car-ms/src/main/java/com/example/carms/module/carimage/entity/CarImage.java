@@ -23,7 +23,7 @@ public class CarImage {
     @Column(nullable = false, updatable = false)
     private UUID carId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private String imageName;
 
     @CreationTimestamp

@@ -1,4 +1,4 @@
-package com.example.carms.module.car.service.command;
+package com.example.carms.module.car.service.action;
 
 import com.example.carms.module.car.constant.CarType;
 
@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
-public record CreateCarCommand(
+public record CreateCarAction(
 
         @NotBlank
         String vin,

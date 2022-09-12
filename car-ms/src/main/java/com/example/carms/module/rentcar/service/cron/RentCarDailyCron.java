@@ -23,7 +23,7 @@ public class RentCarDailyCron {
     private final RentCarFinderService rentCarFinderService;
     private final CarFinderService carFinderService;
 
-    @Scheduled(cron = "59 23 * * * *")
+    @Scheduled(cron = "${cron.leasing.time}")
     public void dailyReport() {
         final List<RentCar> rentCars = rentCarFinderService.findAllByCreatedAtToday();
         log.info("Today {} cars were rent.", rentCars.size());
@@ -38,21 +38,16 @@ public class RentCarDailyCron {
 
         BigDecimal max = BigDecimal.ZERO;
         BigDecimal sum = BigDecimal.ZERO;
-        int carsWithoutNullPrice = 0;
         for (Car car: cars) {
             final BigDecimal carPrice = car.getPrice();
-            if (carPrice == null) {
-                continue;
-            }
 
             if (max.compareTo(carPrice) < 0) {
                 max = carPrice;
             }
             sum = sum.add(carPrice);
-            carsWithoutNullPrice ++;
         }
 
         log.info("The max price was {}.", max);
-        log.info("The avg proce was {}", sum.divide(BigDecimal.valueOf(carsWithoutNullPrice)));
+        log.info("The avg price was {}", sum.divide(BigDecimal.valueOf(cars.size())));
     }
 }

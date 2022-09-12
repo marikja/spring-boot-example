@@ -9,9 +9,9 @@ import com.example.userms.common.service.PostgresLockService;
 import com.example.userms.module.user.entity.User;
 import com.example.userms.module.user.exception.UserAlreadyExistsException;
 import com.example.userms.module.user.exception.UserNotFoundException;
-import com.example.userms.module.user.service.command.CreateUserCommand;
-import com.example.userms.module.user.service.command.RentCarCommand;
-import com.example.userms.module.user.service.command.ReturnCarCommand;
+import com.example.userms.module.user.service.action.CreateUserAction;
+import com.example.userms.module.user.service.action.RentCarAction;
+import com.example.userms.module.user.service.action.ReturnCarAction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,37 +30,37 @@ public class UserService {
     private final PostgresLockService postgresLockService;
 
     @Transactional
-    public User create(@Valid CreateUserCommand command) {
-        postgresLockService.lock(DbTable.USER, List.of(command.email()));
+    public User create(@Valid CreateUserAction action) {
+        postgresLockService.lock(DbTable.USER, List.of(action.email()));
 
-        if (userRepository.existsByEmail(command.email())) {
+        if (userRepository.existsByEmail(action.email())) {
             throw new UserAlreadyExistsException();
         }
 
         final User user = new User();
-        user.setFirstName(command.firstName());
-        user.setLastName(command.lastName());
-        user.setPassword(command.password());
-        user.setAge(command.age());
-        user.setEmail(command.email());
+        user.setFirstName(action.firstName());
+        user.setLastName(action.lastName());
+        user.setPassword(action.password());
+        user.setBirth(action.birth());
+        user.setEmail(action.email());
         return userRepository.save(user);
     }
 
-    public RentCarResponse rentCar(@Valid RentCarCommand command) {
-        if (!userRepository.existsById(command.userId())) {
+    public RentCarResponse rentCar(@Valid RentCarAction action) {
+        if (!userRepository.existsById(action.userId())) {
             throw new UserNotFoundException();
         }
 
         return carIntegrator.rentCar(
                 new RentCarRequest(
-                        command.userId(),
-                        command.carId(),
-                        command.fromDate(),
-                        command.toDate()
+                        action.userId(),
+                        action.carId(),
+                        action.fromDate(),
+                        action.toDate()
                 ));
     }
 
-    public void returnCar(@Valid ReturnCarCommand command) {
-        carIntegrator.returnCar(new ReturnCarRequest(command.rentCarId()));
+    public void returnCar(@Valid ReturnCarAction action) {
+        carIntegrator.returnCar(new ReturnCarRequest(action.rentCarId()));
     }
 }

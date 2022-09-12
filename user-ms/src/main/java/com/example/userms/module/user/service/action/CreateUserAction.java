@@ -1,12 +1,13 @@
-package com.example.userms.module.user.service.command;
+package com.example.userms.module.user.service.action;
 
 
 import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
 
-public record CreateUserCommand(
+public record CreateUserAction(
 
         @NotBlank
         String firstName,
@@ -21,7 +22,7 @@ public record CreateUserCommand(
         String password,
 
         @Nullable
-        Integer age
+        LocalDate birth
 
 ) {
 }

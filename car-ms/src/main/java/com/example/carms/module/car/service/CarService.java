@@ -6,11 +6,10 @@ import com.example.carms.module.car.constant.CarType;
 import com.example.carms.module.car.constant.LeasingCarProperties;
 import com.example.carms.module.car.exception.CarAlreadyExistsException;
 import com.example.carms.module.car.entity.Car;
-import com.example.carms.module.car.service.command.CalculateLeasingCommand;
-import com.example.carms.module.car.service.command.CreateCarCommand;
+import com.example.carms.module.car.service.action.CalculateLeasingAction;
+import com.example.carms.module.car.service.action.CreateCarAction;
 import com.example.carms.module.car.service.leasing.LeasingCalculator;
 import com.example.carms.module.car.service.model.LeasingModel;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -47,36 +46,31 @@ public class CarService {
     }
 
     @Transactional
-    public Car create(@Valid CreateCarCommand command) {
-        postgresLockService.lock(DbTable.CAR, List.of(command.vin()));
+    public Car create(@Valid CreateCarAction action) {
+        postgresLockService.lock(DbTable.CAR, List.of(action.vin()));
 
-        if (carRepository.existsByVin(command.vin())) {
+        if (carRepository.existsByVin(action.vin())) {
             throw new CarAlreadyExistsException();
         }
 
         final Car car = new Car();
-        car.setVin(command.vin());
-        car.setMake(command.make());
-        car.setType(command.type());
-        car.setPrice(command.price());
-        car.setHorsePower(command.horsePower());
-        car.setModel(command.model());
+        car.setVin(action.vin());
+        car.setMake(action.make());
+        car.setType(action.type());
+        car.setPrice(action.price());
+        car.setHorsePower(action.horsePower());
+        car.setModel(action.model());
 
         return carRepository.save(car);
     }
 
-    public LeasingModel calculateLeasing(@Valid CalculateLeasingCommand command) {
-        final Car car = carFinderService.getById(command.carId());
-        if (car.getPrice() == null) {
-            return null;
-        }
-
+    public LeasingModel calculateLeasing(@Valid CalculateLeasingAction action) {
+        final Car car = carFinderService.getById(action.carId());
         final BigDecimal leasingCoefficient = leasingCarProperties.getCoefficient(car.getType());
-
         final BigDecimal monthlyPayment = leasingCalculatorMap.get(car.getType()).calculateLeasing(
-                leasingCoefficient, car.getPrice(), command.monthCount()
+                leasingCoefficient, car.getPrice(), action.monthCount()
         );
 
-        return new LeasingModel(car.getId(), command.monthCount(), car.getPrice(), monthlyPayment);
+        return new LeasingModel(car.getId(), action.monthCount(), car.getPrice(), monthlyPayment);
     }
 }

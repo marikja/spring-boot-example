@@ -6,7 +6,7 @@ import com.example.carms.module.car.entity.Car;
 import com.example.carms.module.rentcar.entity.RentCar;
 import com.example.carms.module.rentcar.service.RentCarFinderService;
 import com.example.carms.module.rentcar.service.RentCarService;
-import com.example.carms.module.rentcar.service.command.CreateRentCarCommand;
+import com.example.carms.module.rentcar.service.action.CreateRentCarAction;
 import com.proto.rentcar.RentCarGrpcRequest;
 import com.proto.rentcar.RentCarGrpcResponse;
 import io.grpc.stub.StreamObserver;
@@ -98,12 +98,12 @@ class CarServiceGrpcImplTest {
 
         verify(carFinderService).findById(rentCar.getCarId());
 
-        final CreateRentCarCommand command = new CreateRentCarCommand(
+        final CreateRentCarAction action = new CreateRentCarAction(
                 rentCar.getCarId(),
                 rentCar.getUserId(),
                 rentCar.getFromDate(),
                 rentCar.getToDate()
         );
-        verify(rentCarService).create(command);
+        verify(rentCarService).create(action);
     }
 }

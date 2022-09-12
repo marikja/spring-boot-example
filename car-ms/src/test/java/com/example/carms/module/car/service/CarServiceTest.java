@@ -6,7 +6,7 @@ import com.example.carms.module.car.constant.CarType;
 import com.example.carms.module.car.constant.LeasingCarProperties;
 import com.example.carms.module.car.exception.CarAlreadyExistsException;
 import com.example.carms.module.car.entity.Car;
-import com.example.carms.module.car.service.command.CreateCarCommand;
+import com.example.carms.module.car.service.action.CreateCarAction;
 import com.example.carms.module.car.service.leasing.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -27,17 +27,16 @@ public class CarServiceTest {
     private final CarFinderService carFinderService = mock(CarFinderService.class);
     private final LeasingCarProperties leasingCarProperties = mock(LeasingCarProperties.class);
     private final PostgresLockService postgresLockService = mock(PostgresLockService.class);
-
     private final LeasingCalculateCabriolet leasingCalculateCabriolet = mock(LeasingCalculateCabriolet.class);
     private final LeasingCalculateSedan leasingCalculateSedan = mock(LeasingCalculateSedan.class);
     private final LeasingCalculateCombi leasingCalculateCombi = mock(LeasingCalculateCombi.class);
     private final LeasingCalculateSuv leasingCalculateSuv = mock(LeasingCalculateSuv.class);
     private final CarService carService;
 
-    private final static CreateCarCommand CREATE_CAR_COMMAND;
+    private final static CreateCarAction CREATE_CAR_ACTION;
 
     static {
-        CREATE_CAR_COMMAND = new CreateCarCommand(
+        CREATE_CAR_ACTION = new CreateCarAction(
                 "vin",
                 "make",
                 "model",
@@ -84,30 +83,30 @@ public class CarServiceTest {
     void testCreateCar_notExist_shouldCreateCar() {
         when(carRepository.existsByVin(any())).thenReturn(false);
 
-        carService.create(CREATE_CAR_COMMAND);
+        carService.create(CREATE_CAR_ACTION);
 
-        verify(postgresLockService).lock(DbTable.CAR, List.of(CREATE_CAR_COMMAND.vin()));
+        verify(postgresLockService).lock(DbTable.CAR, List.of(CREATE_CAR_ACTION.vin()));
 
-        verify(carRepository).existsByVin(CREATE_CAR_COMMAND.vin());
+        verify(carRepository).existsByVin(CREATE_CAR_ACTION.vin());
         final ArgumentCaptor<Car> argumentCaptor = ArgumentCaptor.forClass(Car.class);
         verify(carRepository).save(argumentCaptor.capture());
         final Car car = argumentCaptor.getValue();
         assertThat(car.getId()).isNotNull();
-        assertThat(car.getVin()).isEqualTo(CREATE_CAR_COMMAND.vin());
-        assertThat(car.getMake()).isEqualTo(CREATE_CAR_COMMAND.make());
-        assertThat(car.getModel()).isEqualTo(CREATE_CAR_COMMAND.model());
-        assertThat(car.getHorsePower()).isEqualTo(CREATE_CAR_COMMAND.horsePower());
-        assertThat(car.getType()).isEqualTo(CREATE_CAR_COMMAND.type());
-        assertThat(car.getPrice()).isEqualTo(CREATE_CAR_COMMAND.price());
+        assertThat(car.getVin()).isEqualTo(CREATE_CAR_ACTION.vin());
+        assertThat(car.getMake()).isEqualTo(CREATE_CAR_ACTION.make());
+        assertThat(car.getModel()).isEqualTo(CREATE_CAR_ACTION.model());
+        assertThat(car.getHorsePower()).isEqualTo(CREATE_CAR_ACTION.horsePower());
+        assertThat(car.getType()).isEqualTo(CREATE_CAR_ACTION.type());
+        assertThat(car.getPrice()).isEqualTo(CREATE_CAR_ACTION.price());
     }
 
     @Test
     void testCreateCar_exist_shouldThrowException() {
         when(carRepository.existsByVin(any())).thenReturn(true);
 
-        assertThatThrownBy(() -> carService.create(CREATE_CAR_COMMAND))
+        assertThatThrownBy(() -> carService.create(CREATE_CAR_ACTION))
                 .isInstanceOf(CarAlreadyExistsException.class);
 
-        verify(carRepository).existsByVin(CREATE_CAR_COMMAND.vin());
+        verify(carRepository).existsByVin(CREATE_CAR_ACTION.vin());
     }
 }

@@ -7,7 +7,7 @@ import com.example.carms.module.car.controller.dto.response.CarResponse;
 import com.example.carms.module.car.entity.Car;
 import com.example.carms.module.car.service.CarFinderService;
 import com.example.carms.module.car.service.CarService;
-import com.example.carms.module.car.service.command.CreateCarCommand;
+import com.example.carms.module.car.service.action.CreateCarAction;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -23,14 +23,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
 
@@ -53,7 +48,6 @@ public class CarImageControllerTest {
     private WebApplicationContext webApplicationContext;
 
     private MockMvc mockMvc;
-
 
     @BeforeAll
     void beforeAll() {
@@ -124,7 +118,7 @@ public class CarImageControllerTest {
                 .andExpect(jsonPath("$.type", is(CAR.getType().name())))
                 .andExpect(jsonPath("$.price", is(CAR.getPrice().intValue())));
 
-        verify(carService).create(new CreateCarCommand(
+        verify(carService).create(new CreateCarAction(
                 CAR.getVin(),
                 CAR.getMake(),
                 CAR.getModel(),

@@ -6,8 +6,8 @@ import com.example.carms.module.car.controller.dto.request.CreateCarRequest;
 import com.example.carms.module.car.controller.dto.response.CarResponse;
 import com.example.carms.module.car.entity.Car;
 import com.example.carms.module.car.service.CarFinderService;
-import com.example.carms.module.car.service.command.CalculateLeasingCommand;
-import com.example.carms.module.car.service.command.CreateCarCommand;
+import com.example.carms.module.car.service.action.CalculateLeasingAction;
+import com.example.carms.module.car.service.action.CreateCarAction;
 import com.example.carms.module.car.service.CarService;
 import com.example.carms.common.dto.response.PageModel;
 import com.example.carms.common.util.PageMapperUtil;
@@ -41,7 +41,7 @@ public class CarController {
     @PostMapping
     public CarResponse create(@RequestBody CreateCarRequest createCarRequest) {
         return carResponseMapper.map(carService.create(
-                new CreateCarCommand(
+                new CreateCarAction(
                         createCarRequest.vin(),
                         createCarRequest.make(),
                         createCarRequest.model(),
@@ -59,7 +59,7 @@ public class CarController {
 
     @PostMapping("/{carId}/calculate-leasing")
     public LeasingModel calculateLeasing(@PathVariable UUID carId, @RequestBody CalculateLeasingRequest request) {
-        return carService.calculateLeasing(new CalculateLeasingCommand(carId, request.monthCount()));
+        return carService.calculateLeasing(new CalculateLeasingAction(carId, request.monthCount()));
     }
 
 }

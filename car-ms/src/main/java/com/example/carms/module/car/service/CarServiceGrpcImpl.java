@@ -7,8 +7,8 @@ import com.example.carms.module.car.service.model.RentCarModel;
 import com.example.carms.module.rentcar.entity.RentCar;
 import com.example.carms.module.rentcar.service.RentCarFinderService;
 import com.example.carms.module.rentcar.service.RentCarService;
-import com.example.carms.module.rentcar.service.command.CreateRentCarCommand;
-import com.example.carms.module.rentcar.service.command.ReturnCarCommand;
+import com.example.carms.module.rentcar.service.action.CreateRentCarAction;
+import com.example.carms.module.rentcar.service.action.ReturnCarAction;
 import com.google.protobuf.Empty;
 import com.proto.rentcar.*;
 import io.grpc.Status;
@@ -40,7 +40,7 @@ public class CarServiceGrpcImpl extends CarServiceGrpc.CarServiceImplBase {
         }
 
         final RentCar rentCar = rentCarService.create(
-                new CreateRentCarCommand(
+                new CreateRentCarAction(
                         UUID.fromString(request.getCarId()),
                         UUID.fromString(request.getUserId()),
                         LocalDateTimeFormatterUtil.fromString(request.getFromDate()),
@@ -64,7 +64,7 @@ public class CarServiceGrpcImpl extends CarServiceGrpc.CarServiceImplBase {
             return;
         }
 
-        rentCarService.returnCar(new ReturnCarCommand(rentCarId));
+        rentCarService.returnCar(new ReturnCarAction(rentCarId));
         responseObserver.onNext(Empty.newBuilder().build());
         responseObserver.onCompleted();
     }

@@ -1,22 +1,22 @@
-package com.example.carms.module.rentcar.service.command;
+package com.example.userms.module.user.service.action;
 
-import com.sun.istack.NotNull;
-
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record CreateRentCarCommand(
-
-        @NotNull
-        UUID carId,
+public record RentCarAction(
 
         @NotNull
         UUID userId,
+
+        @NotNull
+        UUID carId,
 
         @NotNull
         LocalDateTime fromDate,
 
         @NotNull
         LocalDateTime toDate
+
 ) {
 }

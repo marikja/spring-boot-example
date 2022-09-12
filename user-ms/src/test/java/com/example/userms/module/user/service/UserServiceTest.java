@@ -4,7 +4,7 @@ import com.example.userms.common.constant.DbTable;
 import com.example.userms.common.integrator.car.CarIntegrator;
 import com.example.userms.common.service.PostgresLockService;
 import com.example.userms.module.user.entity.User;
-import com.example.userms.module.user.service.command.CreateUserCommand;
+import com.example.userms.module.user.service.action.CreateUserAction;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -26,15 +26,15 @@ public class UserServiceTest {
             postgresLockService
     );
 
-    private final static CreateUserCommand CREATE_USER_COMMAND;
+    private final static CreateUserAction CREATE_USER_ACTION;
 
     static {
-        CREATE_USER_COMMAND = new CreateUserCommand(
+        CREATE_USER_ACTION = new CreateUserAction(
                 "firstName",
                 "lastName",
                 "blem.blem@blem.com",
                 "password",
-                27
+                null
         );
     }
 
@@ -47,19 +47,19 @@ public class UserServiceTest {
     void testCreateUser_notExist_shouldCreateUser() {
         when(userRepository.existsByEmail(any())).thenReturn(false);
 
-        userService.create(CREATE_USER_COMMAND);
+        userService.create(CREATE_USER_ACTION);
 
-        verify(postgresLockService).lock(DbTable.USER, List.of(CREATE_USER_COMMAND.email()));
+        verify(postgresLockService).lock(DbTable.USER, List.of(CREATE_USER_ACTION.email()));
 
-        verify(userRepository).existsByEmail(CREATE_USER_COMMAND.email());
+        verify(userRepository).existsByEmail(CREATE_USER_ACTION.email());
         final ArgumentCaptor<User> argumentCaptor = ArgumentCaptor.forClass(User.class);
         verify(userRepository).save(argumentCaptor.capture());
         final User user = argumentCaptor.getValue();
         assertThat(user.getId()).isNotNull();
-        assertThat(user.getFirstName()).isEqualTo(CREATE_USER_COMMAND.firstName());
-        assertThat(user.getLastName()).isEqualTo(CREATE_USER_COMMAND.lastName());
-        assertThat(user.getEmail()).isEqualTo(CREATE_USER_COMMAND.email());
-        assertThat(user.getPassword()).isEqualTo(CREATE_USER_COMMAND.password());
-        assertThat(user.getAge()).isEqualTo(CREATE_USER_COMMAND.age());
+        assertThat(user.getFirstName()).isEqualTo(CREATE_USER_ACTION.firstName());
+        assertThat(user.getLastName()).isEqualTo(CREATE_USER_ACTION.lastName());
+        assertThat(user.getEmail()).isEqualTo(CREATE_USER_ACTION.email());
+        assertThat(user.getPassword()).isEqualTo(CREATE_USER_ACTION.password());
+        assertThat(user.getBirth()).isNull();
     }
 }

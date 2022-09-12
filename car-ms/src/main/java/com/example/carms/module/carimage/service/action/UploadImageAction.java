@@ -1,17 +1,16 @@
-package com.example.carms.module.carimage.service.command;
+package com.example.carms.module.carimage.service.action;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.UUID;
 
-public record BatchUploadImageCommand(
+public record UploadImageAction(
 
         @NotNull
         UUID carId,
 
         @NotNull
-        List<MultipartFile> images
+        MultipartFile image
 ) {
 }

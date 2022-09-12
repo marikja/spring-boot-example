@@ -10,9 +10,9 @@ import com.example.userms.module.user.controller.dto.response.UserResponse;
 import com.example.userms.module.user.entity.User;
 import com.example.userms.module.user.service.UserFinderService;
 import com.example.userms.module.user.service.UserService;
-import com.example.userms.module.user.service.command.CreateUserCommand;
-import com.example.userms.module.user.service.command.RentCarCommand;
-import com.example.userms.module.user.service.command.ReturnCarCommand;
+import com.example.userms.module.user.service.action.CreateUserAction;
+import com.example.userms.module.user.service.action.RentCarAction;
+import com.example.userms.module.user.service.action.ReturnCarAction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -50,12 +50,12 @@ public class UserController {
     @PostMapping("/sign-up")
     public UserResponse signUp(@RequestBody CreateUserRequest request) {
         final User user = userService.create(
-                new CreateUserCommand(
+                new CreateUserAction(
                         request.firstName(),
                         request.lastName(),
                         request.email(),
                         request.password(),
-                        request.age()
+                        request.birth()
                 )
         );
         return userResponseMapper.map(user);
@@ -66,7 +66,7 @@ public class UserController {
                                    @PathVariable UUID carId,
                                    @RequestBody UserRentCarRequest request) {
         return userService.rentCar(
-                new RentCarCommand(
+                new RentCarAction(
                         userId,
                         carId,
                         request.fromDate(),
@@ -77,6 +77,6 @@ public class UserController {
 
     @PostMapping("/cars/return/{rentCarId}")
     public void returnCar(@PathVariable UUID rentCarId) {
-        userService.returnCar(new ReturnCarCommand(rentCarId));
+        userService.returnCar(new ReturnCarAction(rentCarId));
     }
 }

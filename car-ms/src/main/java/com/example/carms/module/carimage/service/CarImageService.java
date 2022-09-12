@@ -1,8 +1,8 @@
 package com.example.carms.module.carimage.service;
 
 import com.example.carms.module.carimage.constant.UploadImageStatus;
-import com.example.carms.module.carimage.service.command.BatchUploadImageCommand;
-import com.example.carms.module.carimage.service.command.UploadImageCommand;
+import com.example.carms.module.carimage.service.action.BatchUploadImageAction;
+import com.example.carms.module.carimage.service.action.UploadImageAction;
 import com.example.carms.module.carimage.service.model.CarImageUploadModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,12 +23,12 @@ public class CarImageService {
     private final CarImageUploaderService carImageUploaderService;
 
     @Transactional
-    public List<CarImageUploadModel> uploadImages(@Valid BatchUploadImageCommand command) {
+    public List<CarImageUploadModel> uploadImages(@Valid BatchUploadImageAction action) {
         final List<CarImageUploadModel> carImageUploadModels = new ArrayList<>();
-        final UUID carId = command.carId();
-        for (MultipartFile image: command.images()) {
+        final UUID carId = action.carId();
+        for (MultipartFile image: action.images()) {
             try {
-                carImageUploaderService.uploadImage(new UploadImageCommand(carId, image));
+                carImageUploaderService.uploadImage(new UploadImageAction(carId, image));
                 carImageUploadModels.add(
                         new CarImageUploadModel(carId, UploadImageStatus.COMPLETED, image.getOriginalFilename())
                 );

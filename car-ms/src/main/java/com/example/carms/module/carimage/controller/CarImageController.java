@@ -1,8 +1,7 @@
 package com.example.carms.module.carimage.controller;
 
-import com.example.carms.module.car.service.CarService;
 import com.example.carms.module.carimage.service.CarImageService;
-import com.example.carms.module.carimage.service.command.BatchUploadImageCommand;
+import com.example.carms.module.carimage.service.action.BatchUploadImageAction;
 import com.example.carms.module.carimage.service.model.CarImageUploadModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +19,6 @@ public class CarImageController {
 
     @PostMapping("/upload-images")
     public List<CarImageUploadModel> uploadImages(@PathVariable UUID carId, @RequestPart List<MultipartFile> images) {
-        return carImageService.uploadImages(new BatchUploadImageCommand(carId, images));
+        return carImageService.uploadImages(new BatchUploadImageAction(carId, images));
     }
 }

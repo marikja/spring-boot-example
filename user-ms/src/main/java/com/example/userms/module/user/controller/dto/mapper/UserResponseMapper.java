@@ -47,7 +47,7 @@ public class UserResponseMapper {
                 user.getFirstName(),
                 user.getLastName(),
                 user.getEmail(),
-                user.getAge(),
+                user.getBirth(),
                 user.getUpdatedAt(),
                 user.getCreatedAt(),
                 rentCars

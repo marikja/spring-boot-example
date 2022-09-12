@@ -7,7 +7,7 @@ import com.example.userms.module.user.entity.User;
 import com.example.userms.module.user.service.UserFinderService;
 import com.example.userms.module.user.service.UserService;
 
-import com.example.userms.module.user.service.command.CreateUserCommand;
+import com.example.userms.module.user.service.action.CreateUserAction;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -73,7 +73,7 @@ public class UserControllerTest {
         USER.setLastName("Novak");
         USER.setEmail("Jan.Novak@gmail.com");
         USER.setPassword("SpringIsBest");
-        USER.setAge(27);
+        USER.setBirth(null);
     }
 
     private final static UserResponse USER_RESPONSE;
@@ -83,7 +83,7 @@ public class UserControllerTest {
                 USER.getFirstName(),
                 USER.getLastName(),
                 USER.getEmail(),
-                USER.getAge(),
+                USER.getBirth(),
                 USER.getCreatedAt(),
                 USER.getUpdatedAt(),
                 Collections.emptyList()
@@ -107,15 +107,15 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.lastName", is(USER.getLastName())))
                 .andExpect(jsonPath("$.firstName", is(USER.getFirstName())))
                 .andExpect(jsonPath("$.email", is(USER.getEmail())))
-                .andExpect(jsonPath("$.age", is(USER.getAge())));
+                .andExpect(jsonPath("$.birth", is(USER.getBirth())));
 
 
-        verify(userService).create(new CreateUserCommand(
+        verify(userService).create(new CreateUserAction(
                 USER.getFirstName(),
                 USER.getLastName(),
                 USER.getEmail(),
                 USER.getPassword(),
-                USER.getAge()
+                USER.getBirth()
         ));
         verify(userResponseMapper).map(USER);
     }

@@ -40,7 +40,7 @@ public class Car {
     @Enumerated(EnumType.STRING)
     private CarType type;
 
-    @Nullable
+    @Column(nullable = false)
     private BigDecimal price;
 
     @CreationTimestamp

@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -36,7 +37,7 @@ public class User {
     private String password;
 
     @Nullable
-    private Integer age;
+    private LocalDate birth;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)

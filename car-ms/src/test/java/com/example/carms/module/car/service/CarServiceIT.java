@@ -3,7 +3,7 @@ package com.example.carms.module.car.service;
 import com.example.carms.IT;
 import com.example.carms.module.car.constant.CarType;
 import com.example.carms.module.car.entity.Car;
-import com.example.carms.module.car.service.command.CreateCarCommand;
+import com.example.carms.module.car.service.action.CreateCarAction;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,7 +22,7 @@ public class CarServiceIT {
 
     @Test
     void testCreate() {
-        final CreateCarCommand createCarCommand = new CreateCarCommand(
+        final CreateCarAction createCarAction = new CreateCarAction(
                 "vin",
                 "make",
                 "model",
@@ -30,15 +30,15 @@ public class CarServiceIT {
                 CarType.CABRIOLET,
                 BigDecimal.valueOf(40000L)
         );
-        Car car = carService.create(createCarCommand);
+        Car car = carService.create(createCarAction);
         car = carRepository.findById(car.getId()).get();
 
         assertThat(car.getId()).isNotNull();
-        assertThat(car.getVin()).isEqualTo(createCarCommand.vin());
-        assertThat(car.getMake()).isEqualTo(createCarCommand.make());
-        assertThat(car.getModel()).isEqualTo(createCarCommand.model());
-        assertThat(car.getHorsePower()).isEqualTo(createCarCommand.horsePower());
-        assertThat(car.getType()).isEqualTo(createCarCommand.type());
-        assertThat(car.getPrice()).isEqualTo(createCarCommand.price());
+        assertThat(car.getVin()).isEqualTo(createCarAction.vin());
+        assertThat(car.getMake()).isEqualTo(createCarAction.make());
+        assertThat(car.getModel()).isEqualTo(createCarAction.model());
+        assertThat(car.getHorsePower()).isEqualTo(createCarAction.horsePower());
+        assertThat(car.getType()).isEqualTo(createCarAction.type());
+        assertThat(car.getPrice()).isEqualTo(createCarAction.price());
     }
 }

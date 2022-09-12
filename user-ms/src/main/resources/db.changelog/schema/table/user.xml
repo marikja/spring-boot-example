@@ -16,19 +16,19 @@
                 <column name="id" type="UUID">
                     <constraints primaryKey="true" primaryKeyName="user_id_pk"/>
                 </column>
-                <column name="age" type="INT"/>
+                <column name="email" type="TEXT">
+                    <constraints nullable="false" unique="true" uniqueConstraintName="user_email_ui"/>
+                </column>
                 <column name="first_name" type="TEXT">
                     <constraints nullable="false"/>
                 </column>
                 <column name="last_name" type="TEXT">
                     <constraints nullable="false"/>
                 </column>
-                <column name="email" type="TEXT">
-                    <constraints nullable="false" unique="true" uniqueConstraintName="user_email_ui"/>
-                </column>
                 <column name="password" type="TEXT">
                     <constraints nullable="false"/>
                 </column>
+                <column name="birth" type="TEXT"/>
                 <column name="created_at" type="TIMESTAMP">
                     <constraints nullable="false"/>
                 </column>
@@ -37,6 +37,5 @@
                 </column>
             </createTable>
         </changeSet>
-
 
 </databaseChangeLog>

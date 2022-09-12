@@ -1,7 +1,7 @@
 package com.example.carms.module.carimage.service;
 
 import com.example.carms.module.carimage.entity.CarImage;
-import com.example.carms.module.carimage.service.command.UploadImageCommand;
+import com.example.carms.module.carimage.service.action.UploadImageAction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -18,8 +18,8 @@ public class CarImageUploaderService {
     private final CarImageRepository carImageRepository;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void uploadImage(@Valid UploadImageCommand command) {
-        final String imageName = command.image().getOriginalFilename();
+    public void uploadImage(@Valid UploadImageAction action) {
+        final String imageName = action.image().getOriginalFilename();
 
         /* Image upload to cloud logic
         .
@@ -27,6 +27,6 @@ public class CarImageUploaderService {
         .
          */
 
-        carImageRepository.save(new CarImage(command.carId(), imageName));
+        carImageRepository.save(new CarImage(action.carId(), imageName));
     }
 }

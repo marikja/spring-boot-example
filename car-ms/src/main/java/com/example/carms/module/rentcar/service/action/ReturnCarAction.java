@@ -1,9 +1,9 @@
-package com.example.carms.module.rentcar.service.command;
+package com.example.carms.module.rentcar.service.action;
 
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
-public record ReturnCarCommand(
+public record ReturnCarAction(
         @NotNull
         UUID rentCarId
 ) {
