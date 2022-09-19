@@ -6,7 +6,13 @@ import com.example.userms.common.integrator.car.model.request.RentCarRequest;
 import com.example.userms.common.integrator.car.model.request.ReturnCarRequest;
 import com.example.userms.common.integrator.car.util.RentCarGrpcMapper;
 import com.example.userms.common.integrator.car.model.response.RentCarResponse;
-import com.proto.rentcar.*;
+import com.proto.rentcar.CarServiceGrpc;
+import com.proto.rentcar.FindAllByUserIdGrpcRequest;
+import com.proto.rentcar.FindAllByUserIdsGrpcRequest;
+import com.proto.rentcar.RentCarGrpcRequest;
+import com.proto.rentcar.RentCarGrpcResponse;
+import com.proto.rentcar.RentCarsGrpcResponse;
+import com.proto.rentcar.ReturnCarGrpcRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

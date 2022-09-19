@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @IT
-public class UserServiceIT {
+class UserServiceIT {
 
     @Autowired
     private UserService userService;

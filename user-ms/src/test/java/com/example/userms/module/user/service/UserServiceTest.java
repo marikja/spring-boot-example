@@ -13,9 +13,12 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
-public class UserServiceTest {
+class UserServiceTest {
 
     private final UserRepository userRepository = mock(UserRepository.class);
     private final CarIntegrator carIntegrator = mock(CarIntegrator.class);

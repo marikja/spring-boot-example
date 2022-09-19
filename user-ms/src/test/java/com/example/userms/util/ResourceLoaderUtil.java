@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 public final class ResourceLoaderUtil {
 
     public static String asString(Resource resource) {
-        try(Reader reader = new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8)) {
+        try (Reader reader = new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8)) {
             return FileCopyUtils.copyToString(reader);
         } catch (IOException e) {
             throw new RuntimeException(e);
