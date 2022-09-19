@@ -10,11 +10,12 @@ import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 public class CarFinderServiceTest {
 
@@ -51,7 +52,7 @@ public class CarFinderServiceTest {
     @Test
     void testFindById_noExist_shouldReturnUser() {
         final UUID carId = UUID.randomUUID();
-        when(carRepository.findById(any())).thenReturn(Optional.ofNullable(null));
+        when(carRepository.findById(any())).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> carFinderService.getById(carId)).isInstanceOf(CarNotFoundException.class);
 

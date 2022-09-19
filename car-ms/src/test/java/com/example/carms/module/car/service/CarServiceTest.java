@@ -7,7 +7,10 @@ import com.example.carms.module.car.constant.LeasingCarProperties;
 import com.example.carms.module.car.exception.CarAlreadyExistsException;
 import com.example.carms.module.car.entity.Car;
 import com.example.carms.module.car.service.action.CreateCarAction;
-import com.example.carms.module.car.service.leasing.*;
+import com.example.carms.module.car.service.leasing.LeasingCalculateCabriolet;
+import com.example.carms.module.car.service.leasing.LeasingCalculateCombi;
+import com.example.carms.module.car.service.leasing.LeasingCalculateSedan;
+import com.example.carms.module.car.service.leasing.LeasingCalculateSuv;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -18,8 +21,10 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 public class CarServiceTest {
 
