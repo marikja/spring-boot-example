@@ -25,7 +25,7 @@ To run application easily there are *Dockerfile* for both microservices. These d
 For DB migration Liquibase is used. Migration is defined in [/resources/db.changelog/](/car-ms/src/main/resources/db.changelog)
 
 ### PostgreSQL lock
-Concurrency is solved using Postgres advisory lock. That means there can be more instances of the application based on one DB. This lock is implemented in [/common/service](/car-ms/src/main/java/com/example/carms/common/service). An example of its usage is in [/module/car/service/CarService](/car-ms/src/main/java/com/example/carms/module/car/service/CarService.java#L50).
+Concurrency is solved using Postgres advisory lock. That means there can be more instances of the application based on one DB. This lock is implemented in [/common/service](/car-ms/src/main/java/com/example/carms/common/service). An example of its usage is in [CarService](/car-ms/src/main/java/com/example/carms/module/car/service/CarService.java#L50).
 
 ### Transaction propagation
 There is also an example of usage of different transaction propagation and not of the default one as is REQUIRED. There is a case where we need to save *n* images to specific car and upload them to the cloud image storage. But if creationg of any image failed, it is not allowed to cancle entire algorithm and lose already uploaded images to the cloud. User will be informated which image was successfuly uploaded and which failed. 
