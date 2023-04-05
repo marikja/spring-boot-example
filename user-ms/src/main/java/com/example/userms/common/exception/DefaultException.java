@@ -3,7 +3,7 @@ package com.example.userms.common.exception;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public abstract class ApiException extends RuntimeException {
+public abstract class DefaultException extends RuntimeException {
 
     private final String message;
 
