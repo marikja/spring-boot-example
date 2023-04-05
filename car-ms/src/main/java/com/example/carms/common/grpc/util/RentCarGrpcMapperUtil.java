@@ -1,8 +1,8 @@
 package com.example.carms.common.grpc.util;
 
-import com.example.carms.module.car.entity.Car;
-import com.example.carms.module.car.service.model.RentCarModel;
-import com.example.carms.module.rentcar.entity.RentCar;
+import com.example.carms.car.entity.Car;
+import com.example.carms.car.service.model.RentCarModel;
+import com.example.carms.rentcar.entity.RentCar;
 import com.proto.rentcar.CarType;
 import com.proto.rentcar.RentCarGrpcResponse;
 import com.proto.rentcar.RentCarsGrpcResponse;
